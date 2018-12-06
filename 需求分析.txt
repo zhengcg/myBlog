@@ -1,0 +1,71 @@
+1.关于我（简历）
+
+aboutme
+
+{
+	head	: 	String,
+	name    :       String,
+	school  :       String,
+	major	:	String,--->专业
+	Occupation:	String,--->职业
+	mobile	:	String,
+	email	:	String,
+	skill	:	Array, --->技能
+	introduce:	String,--->自我介绍
+	works	:	Array --->作品		
+}
+
+2.相册
+
+album
+
+{
+
+	name		:	String,--->相册名
+	cover		:	String,--->封面
+	imgs		:	Array
+}
+
+3.博客
+
+Blog（学习笔记）
+
+{
+	title		:	string,
+	author		:	String,
+	date		:	Date,
+	cover		:	string,
+	content		:	string,
+	label		:	string,
+	keyword		:	string
+}
+
+4.分类
+
+labels
+
+{
+	name		:	string
+}
+
+5.座右铭
+
+Motto
+
+{
+	date		:	Date,
+	autograph	:	String --->签名,
+	author		:	String
+}
+
+6.生活随笔
+
+journal
+
+{
+	title		:	string,
+	author		:	String,
+	date		:	Date,
+	cover		:	string,
+	content		:	string,
+}
