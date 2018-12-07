@@ -9,10 +9,12 @@
   "author": "郑春光",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.4.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-static-cache": "^5.1.2",
-    "mongoose": "^5.3.14"
+    "mongoose": "^5.3.14",
+    "sha1": "^1.1.1"
   }
 }

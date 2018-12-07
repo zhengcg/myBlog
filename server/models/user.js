@@ -1,27 +1,78 @@
-const mongoose=require('mongoose');
-const db=require('./db.js');
-
-let UserSchema=new mongoose.Schema({
-	username:{type:String},
-	usersex:{type:String},
-	userage:{type:Number}
+const mongoose=require('./db.js');
+const sha1 = require('sha1');
+let Schema=new mongoose.Schema({
+	username:String,
+	password:String,
+	token:String
 })
 
-let UserModel=db.model('User',UserSchema);
+let Model=mongoose.model('User',Schema);
+// Model.create({
+// 	username:"1083466294",
+// 	password:sha1("zcg19890910")
+// },(err,user)=>{
+// 	if(err){
+// 		console.log(err)
+// 	}else{
+// 		console.log(user)
+// 	}
+// })
+let userModel={
+	login(info){
+		return new Promise((resolve,reject)=>{
+			Model.updateOne({username:info.username},{$set:info},(err,res)=>{
+				if(err){
+					reject(err)
+				}else{
+					resolve(res)
 
-function addUser(user){
-	let users=new UserModel(user);
-	users.save((err,res)=>{
-		if(err){
-			console.log("Error:"+err)
-		}else{
-			console.log("Res:"+res)
-		}
-	})
+				}
+			})
+
+		})
+		
+
+	},
+	update(info){
+		return new Promise((resolve,reject)=>{
+			Model.findOneAndUpdate(info.id,{$set:info},(err,res)=>{
+				if(err){
+					reject(err)
+				}else{
+					resolve(res)
+				}
+			})
+
+		})
+		
+	},
+    find(){
+    	return new Promise((resolve,reject)=>{
+    		Model.find((err,res)=>{
+				if(err){
+					reject(err)
+				}else{
+					resolve(res)
+				}
+			})
+
+    	})
+	    
+	},
+	findById(id){
+		return new Promise((resolve,reject)=>{
+			Model.findById(id,(err,res)=>{
+				if(err){
+					reject(err)
+				}else{
+					resolve(res)
+				}
+			})
+		})
+	}
+
+
 }
 
-addUser({
-	username:"zhengchunguang",
-	usersex:"男",
-	userage:29
-})
+module.exports=userModel;
+

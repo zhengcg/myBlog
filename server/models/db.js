@@ -1,14 +1,15 @@
 const mongoose=require('mongoose');
-const url='mongodb://localhost:27017/blog';
 
-const db=mongoose.createConnection(url);
+const url="mongodb://localhost:27017/blog"
 
-db.on('connected',err=>{
+mongoose.connect(url,{useNewUrlParser: true},err=>{
 	if(err){
-		console.log('连接数据库失败：'+err)
+		console.log("数据库连接失败")
 	}else{
-		console.log('连接数据库成功！')
+		console.log("数据库已连接")
 	}
-})
+});
 
-module.exports=db;
+module.exports=mongoose;
+
+
