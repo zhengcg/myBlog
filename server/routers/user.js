@@ -10,6 +10,7 @@ user.post('/login',async ctx=>{
 		password:sha1(ctx.request.body.password),
 		token:token.createToken(ctx.request.body.username)
 	}
+	console.log(info)
 	let user=await model.find();
 	if(user){
 		if(user[0].username==info.username&&user[0].password==info.password){

@@ -1,0 +1,93 @@
+@import "../../assets/css/config";
+.header{
+	display: block;
+    height: 49px;
+    margin: 0;
+    padding: 0 13px 0 0;
+    background-color: #f3f3f3;
+    background-image: -moz-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#f3f3f3),to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: -o-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: linear-gradient(to bottom,#f3f3f3,#e2e2e2);
+    background-repeat: repeat-x;
+    position: relative;
+    z-index: 905;
+    box-sizing:border-box;
+    position:fixed;
+    top:0;
+    width:100%;
+    left:0;
+    #logo-group{
+    	width: 200px;
+    	display: inline-block;
+	    vertical-align: middle;
+	    height: 49px;
+	    float: left;
+    	span{
+    		display: inline-block;
+		    height: 39px;
+		    float: left;
+		    width: 175px;
+		    margin-top: 13px;
+		    margin-left: 9px;
+		    img{
+		    	width: 110px;
+			    height: auto;
+			    padding-left: 3px;
+		    }
+    	}
+    }
+    .role{
+        display:block;
+        float:left;
+        font-style:normal;
+        height:49px;
+        line-height:49px;
+        padding-left:20px;
+        i{
+            margin-right:5px;
+            color: #474544;
+        }
+    }
+   
+        
+}
+#loginBox{
+	width:400px;
+	position:absolute;
+	top:100px;
+	left:50%;
+	margin-left:-200px;
+	top:50%;
+	margin-top:-130px;
+}
+.btnBox{
+    margin-bottom:0!important;
+}
+.loginBox{
+    webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    color: #303133;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border-radius: 4px;
+}
+#bottom{
+    .bot{
+        height:52px;
+        line-height:52px;
+        color:#fff;
+        font-size:13px;
+        padding:0 13px 0 20px;
+        border-top: 1px solid #CECECE;
+        background: #2a2725;
+        box-sizing:border-box;
+        position:absolute;
+        bottom:0;
+        width:100%;
+        text-align:center;
+    }
+}

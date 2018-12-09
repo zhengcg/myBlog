@@ -11,7 +11,7 @@ let token={
 			},
 			secret,     //秘钥
 			{
-				expiresIn:60
+				expiresIn:60*60
 			}
 		)
 		return token
@@ -21,22 +21,25 @@ let token={
 			if(ctx.request.header['authorization']){
 				let token=ctx.request.header['authorization'].split(' ')[1];
 				let secret="leisiniyebuzhidao";
-				jwt.verify(token,secret,(err,decode)=>{
+				await jwt.verify(token,secret,(err,decode)=>{
 					if(err){ //失效或伪造token
 						console.log("token失效")
 						ctx.body={
-							code:2,
+							code:401,
 							message:"token失效"
 						}
 					}else{
 						console.log("token验证通过");
 						return next();
+						
 					}
 				})
 
+
+
 			}else{
 				ctx.body={
-						code:2,
+						code:401,
 						message:"没有token"
 					}
 

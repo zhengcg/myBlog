@@ -5,7 +5,8 @@ const fs=require('fs');
 const bodyParser=require('koa-bodyparser');
 const userRouter=require('./routers/user');
 const aboutmeRouter=require('./routers/aboutme');
-
+const work=require('./routers/work');
+const file=require('./routers/file');
 const app=new Koa();
 const router=new Router();
 app.use(bodyParser());
@@ -17,13 +18,14 @@ app.use(Static(__dirname+'/static',{
 router.get('/',ctx=>{
 	ctx.body=content.toString();
 })
-
 // 路由
-router.use('/user',userRouter.routes());
-router.use('/aboutme',aboutmeRouter.routes());
+router.use('/api/user',userRouter.routes());
+router.use('/api/aboutme',aboutmeRouter.routes());
+router.use('/api/work',work.routes());
+router.use('/api/file',file.routes());
 app.use(router.routes());
 
 
-app.listen(80,()=>{
+app.listen(3000,()=>{
 	console.log("服务启动成功！")
 })

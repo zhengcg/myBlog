@@ -22,8 +22,7 @@ aboutme
 	mobile	:	String,
 	email	:	String,
 	skill	:	Array, --->技能
-	introduce:	String,--->自我介绍
-	works	:	Array --->作品		
+	introduce:	String--->自我介绍	
 }
 
 2.相册
@@ -79,4 +78,14 @@ journal
 	date		:	Date,
 	cover		:	string,
 	content		:	string,
+}
+
+7.作品
+
+work
+
+{
+	name	:	String,
+	intro 	:	String,
+	url		:	String
 }

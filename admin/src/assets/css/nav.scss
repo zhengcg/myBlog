@@ -1,0 +1,62 @@
+@import "../../assets/css/config";
+.sidebar{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 49px;
+    bottom:0;
+    overflow-y:auto;
+    background: #3a3633;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…BoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+    background: -moz-linear-gradient(left,#3a3633 93%,#2a2725 100%);
+    background: -webkit-gradient(linear,left top,right top,color-stop(93%,#3a3633),color-stop(100%,#2a2725));
+    background: -webkit-linear-gradient(left,#3a3633 93%,#2a2725 100%);
+    background: -o-linear-gradient(left,#3a3633 93%,#2a2725 100%);
+    background: -ms-linear-gradient(left,#3a3633 93%,#2a2725 100%);
+    background: linear-gradient(to right,#3a3633 93%,#2a2725 100%);
+    .collapseBtn{
+        display:block;
+        color:#c0bbb7;
+        text-align:center;
+        height:42px;
+        line-height:42px;
+        border-bottom: 1px solid #525151;
+        box-shadow:inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
+        span{
+            border-bottom: 1px solid #1A1817;
+            display:block;
+            height:40px;
+            i{
+                font-size:20px;
+            }
+        }
+        &.active{
+            color:#fff;
+        }
+        &:hover{
+            color:#fff;
+        }
+    }
+}
+.sidebar-el-menu:not(.el-menu--collapse){
+    width: 200px;
+    overflow-x:hidden;
+}
+.sidebar-el-menu:not(.el-menu--collapse)::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 0px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+    }
+.sidebar-el-menu:not(.el-menu--collapse)::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0);
+    background: #2a2725;
+    }
+.sidebar-el-menu:not(.el-menu--collapse)::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    background: transparent;
+    }

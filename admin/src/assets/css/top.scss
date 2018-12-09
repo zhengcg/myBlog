@@ -1,0 +1,83 @@
+@import "../../assets/css/config";
+.header{
+	display: block;
+    height: 49px;
+    margin: 0;
+    padding: 0 13px 0 0;
+    background-color: #f3f3f3;
+    background-image: -moz-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#f3f3f3),to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: -o-linear-gradient(top,#f3f3f3,#e2e2e2);
+    background-image: linear-gradient(to bottom,#f3f3f3,#e2e2e2);
+    background-repeat: repeat-x;
+    position: relative;
+    z-index: 905;
+    box-sizing:border-box;
+    position:fixed;
+    top:0;
+    width:100%;
+    left:0;
+    #logo-group{
+    	width: 200px;
+    	display: inline-block;
+	    vertical-align: middle;
+	    height: 49px;
+	    float: left;
+    	span{
+    		display: inline-block;
+		    height: 39px;
+		    float: left;
+		    width: 175px;
+		    margin-top: 13px;
+		    margin-left: 9px;
+		    img{
+		    	width: 110px;
+			    height: auto;
+			    padding-left: 3px;
+		    }
+    	}
+    }
+    .role{
+        display:block;
+        float:left;
+        font-style:normal;
+        height:49px;
+        line-height:49px;
+        padding-left:20px;
+        i{
+            margin-right:5px;
+            color: #474544;
+        }
+    }
+    .pull-right{
+    	float:right;
+    	height: 49px;
+        .user-name{
+            margin-left:30px;
+        }
+         .iconBtn{
+            background:#f8f8f8;
+            display:inline-block;
+            height:23px;
+            margin-top:10px;
+            color:#6D6A69;
+            border:1px solid #bfbfbf;
+            border-radius:2px;
+            margin-left:10px;
+            padding:2px;
+            i{              
+                font-size:24px;
+            }
+            &:hover{
+                color:#000;
+            }
+            &.active{
+            color:#000;
+            }
+        }
+    	
+    }
+   
+        
+}
