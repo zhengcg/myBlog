@@ -8,11 +8,23 @@ const Schema=new mongoose.Schema({
 	mobile:String,
 	email:String,
 	skill:Array,
-	introduce:String,
-	works:Array
+	introduce:String
 });
 const Model=mongoose.model("AboutMe",Schema);
-
+// Model.create({
+// 	name:"郑春光",
+// 	school:"南昌大学",
+// 	major:"信息管理与信息系统",
+// 	Occupation:"web前端开发工程师",
+// 	mobile:"18910232146",
+// 	email:"1083466294@qq.com",
+// 	skill:["html"],
+// 	introduce:"ss"
+// },(err,res)=>{
+// 	if(!err){
+// 		console.log(res);
+// 	}
+// })
 let aboutme={
 	create(info){
 		return new Promise((resolve,reject)=>{

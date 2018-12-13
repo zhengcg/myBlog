@@ -1,14 +1,13 @@
 const Router=require('koa-router');
-const model=require('../models/aboutme.js');
+const model=require('../models/motto');
 const token=require('./token');
-const baseUrl=require('./base.js');
-const aboutme=new Router();
-aboutme.get('/find',token.checkToken(),async ctx=>{
+const moment=require('moment');
+const moto=new Router();
+moto.get('/find',token.checkToken(),async ctx=>{
 	let res=await model.find();
 	if(res){
 		ctx.body={
 			code:0,
-			baseUrl:baseUrl,
 			data:res[0],
 			message:"获取成功"
 
@@ -23,11 +22,13 @@ aboutme.get('/find',token.checkToken(),async ctx=>{
 	}
 });
 
-aboutme.post('/create',token.checkToken(),async ctx=>{
+moto.post('/create',token.checkToken(),async ctx=>{
 	let info=ctx.request.body;
-	if(info._id){
-		let up=await model.update(info);
-		if(up._id){
+	let id=ctx.request.body._id;
+	info.date=moment().format('YYYY-MM-DD HH:mm:ss');
+	if(id){
+		let up=await model.update(id,info);
+		if(up){
 			ctx.body={
 				code:0,
 				data:up,
@@ -41,6 +42,7 @@ aboutme.post('/create',token.checkToken(),async ctx=>{
 			}
 		}
 	}else{
+		delete info._id;
 		let data=await model.create(info);
 		ctx.body={
 			code:0,
@@ -50,4 +52,4 @@ aboutme.post('/create',token.checkToken(),async ctx=>{
 	}	
 })
 
-module.exports=aboutme;
+module.exports=moto;

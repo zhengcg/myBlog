@@ -9,7 +9,7 @@
 			<div class="titHead">
 				<el-row>
 				  <el-col :xs="24" :sm="14" :md="14" :lg="8" :xl="8">
-				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-bullhorn fa-fw"></i> 关于我 </h1>			  	
+				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-address-card fa-fw"></i> 关于我 </h1>			  	
 				  </el-col>
 				</el-row>
 			</div>
@@ -18,10 +18,10 @@
 				    <span>基本信息</span>
 				    <a href="javascript:;" class="pull-right" @click="basePop=true">编辑</a>
 				 </div>
-			    <el-row class="row-bg" :gutter="20">
+			    <el-row class="row-bg" :gutter="20" v-if="data._id">
 				  <el-col :span="3">
 				  	<div class="headBox">
-				  		<img :src="data.head" alt="" v-if="data.head">
+				  		<img :src="headImg" alt="" v-if="data.head">
 				  		<img src="../../assets/images/head.png" alt="" v-else>
 				  	</div>
 				  </el-col>
@@ -42,22 +42,23 @@
 				  	</div>
 				  </el-col>
 				</el-row>
+				<p v-else style="text-align:center">暂无数据</p>
 			</el-card>
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
 				    <span>自我介绍</span>
 				    <a href="javascript:;" class="pull-right" @click="introPop=true">编辑</a>
 				 </div>
-				 <pre>
+				 <pre v-if="data._id">
 				 <div v-html="data.introduce">
 				 </div>
 				 	
 				 </pre>
+				 <p v-else style="text-align:center">暂无数据</p>
 			</el-card>
 			<el-card class="box-card">
 				<div slot="header" class="clearfix">
-				    <span>技能</span>
-				    
+				    <span>技能</span>				    
 				 </div>
 				<el-tag
 				  :key="tag"
@@ -105,11 +106,11 @@
 			    <el-input v-model="data.email" type="text" clearable></el-input>
 			  </el-form-item>
 			  <el-form-item label="头像">
-			    <el-upload class="upload-demo" drag :action="fileup" name="File" :show-file-list="false" :on-success="preview" :before-upload="beforeAvatarUpload">
+			    <el-upload class="upload-demo" drag :action="fileup" name="file" :show-file-list="false" :on-success="preview" :before-upload="beforeAvatarUpload">
 	              <i class="el-icon-upload"></i>
 	              <div class="el-upload__text">将图片拖到此处，或<em  style="font-style: normal">点击上传</em></div>
-	              <div class="imgBox" v-show="data.head!==''">
-	                <img :src="data.head" alt="">
+	              <div class="imgBox" v-show="headImg">
+	                <img :src="headImg" alt="">
 	              </div>
 	            </el-upload>
 			  </el-form-item>
@@ -145,10 +146,10 @@ import api from '../../api'
 		        data:{},
 		        basePop:false,
 		        introPop:false,
-		        workPop:false,
 		        inputVisible: false,
         		inputValue: '',
-        		fileup:api.file+'/head'
+        		fileup:api.file,
+        		headImg:"",
 				
 				
 			}
@@ -157,7 +158,7 @@ import api from '../../api'
 
 		},
 		created(){
-			this.getInfo();
+			this.getInfo();	
 
 		},
 		mounted(){
@@ -197,7 +198,8 @@ import api from '../../api'
 		    },
 		    preview(response, file, fileList) {
 		      var self=this;
-		      console.log(response)
+		      self.headImg=response.baseUrl+response.filename;		      
+		      self.data.head=response.filename;
 		      // if(response.code==0){
 		      // 	self.data.head=response.result[0];
 		      // }else{
@@ -225,6 +227,9 @@ import api from '../../api'
 	            if(res.data.code==0){
 	              loading.close();
 	              self.data=res.data.data;
+	              if(self.data.head){
+						self.headImg=res.data.baseUrl+res.data.data.head;
+					}
 	            }else{
 	              loading.close();
 	                    

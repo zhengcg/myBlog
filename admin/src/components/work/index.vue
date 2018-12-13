@@ -2,14 +2,14 @@
 	<div id="user">
 		<div class="targ">
 			<ol class="breadcrumb">
-				<li>作品管理管理</li>
+				<li>作品管理</li>
 			</ol>
 		</div>
 		<div class="mainBox">
 			<div class="titHead">
 				<el-row>
 				  <el-col :xs="24" :sm="14" :md="14" :lg="8" :xl="8">
-				  	<h1 class="page-title txt-color-blueDark"><i class="el-icon-star-on"></i> 作品管理</h1>			  	
+				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-github fa-fw"></i> 作品管理</h1>			  	
 				  </el-col>
 				  <el-col :xs="24" :sm="10" :md="10" :lg="16" :xl="16">
 				  	<div class="titHeadTab">
@@ -283,7 +283,11 @@ import api from '../../api'
 		                    message:"删除成功",
 		                    type: 'warning'
 		                  });
-		              self.getList();
+		              if(self.data.length==1&&self.currentPage>1){
+		                	self.currentPage--
+		                } 
+		                self.getList()
+
 		            }else{
 		              loading.close();
 		                    

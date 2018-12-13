@@ -39,21 +39,36 @@
                 collapse:false,
                 nav:[
                     {
-                        icon: 'fa fa-bullhorn fa-fw',
+                        icon: 'fa fa-address-card fa-fw',
                         index: 'aboutme',
                         title: '关于我'
                     },
                     {
-                        icon: 'fa fa-bullhorn fa-fw',
+                        icon: 'fa fa-github fa-fw',
                         index: 'work',
                         title: '作品管理'
                     },
-                    
                     {
                         icon: 'fa fa-bullhorn fa-fw',
+                        index: 'motto',
+                        title: '说说管理'
+                    },
+                    {
+                        icon: 'fa fa-graduation-cap fa-fw',
+                        index: 'blog',
+                        title: '学习笔记'
+                    },
+                    {
+                        icon: 'fa fa-coffee fa-fw',
                         index: 'notice',
-                        title: '公告管理'
+                        title: '生活随笔'
+                    },
+                    {
+                        icon: 'fa fa-user fa-fw',
+                        index: 'user',
+                        title: '账户管理'
                     }
+                    
 
                 ]
             

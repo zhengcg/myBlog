@@ -2,7 +2,7 @@
 	<div id="notice">
 		<div class="targ">
 			<ol class="breadcrumb">
-				<li>公告管理</li>
+				<li>生活随笔</li>
 				<li>{{fTitle}}</li>
 			</ol>
 		</div>
@@ -10,7 +10,7 @@
 			<div class="titHead">
 				<el-row>
 				  <el-col :xs="24" :sm="14" :md="14" :lg="8" :xl="8">
-				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-bullhorn fa-fw"></i> 公告管理 <span>&gt; {{fTitle}}</span></h1>			  	
+				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-coffee fa-fw"></i> 生活随笔 <span>&gt; {{fTitle}}</span></h1>			  	
 				  </el-col>
 				  <el-col :xs="24" :sm="10" :md="10" :lg="16" :xl="16">
 				  	<div class="titHeadTab">
@@ -20,7 +20,7 @@
 				  
 				</el-row>
 			</div>
-			<el-card class="box-card" v-show="fTitle!=='查看公告'">
+			<el-card class="box-card" v-show="fTitle!=='查看'">
 				 <div class="box">
 		            <el-input
 		              placeholder="请输入标题（建议30字以内）"
@@ -30,7 +30,7 @@
 		            </el-input>
 		          </div>
 				  <div class="box">
-		            <el-upload class="selfImg"  :action="fileup" name="File"  :show-file-list="false" :on-success="insertImg" >
+		            <el-upload class="selfImg"  :action="fileup" name="file"  :show-file-list="false" :on-success="insertImg" >
 		                      <i id="selfImg"></i>
 		             </el-upload>
 		            <div class="editor-container">
@@ -44,7 +44,7 @@
 				
 
 			</el-card>
-			<el-card class="box-card" v-show="fTitle=='查看公告'">
+			<el-card class="box-card" v-show="fTitle=='查看'">
 				<div id="noticeDiv">
 					<div class="box">
 						<h3>{{title}}</h3>
@@ -80,7 +80,7 @@
 		         id:'',
 		         title:'',
 		         updateDate:'',
-		         fileup:api.fileup
+		         fileup:api.file
 				
 				
 			}
@@ -88,56 +88,20 @@
 		computed:{
 
 		},
-		mounted(){
-			//初始化
-		   var self=this;
-		   this.$refs.ue.editor.addListener("contentChange", function () {
-		          self.content= self.$refs.ue.editor.getContent()       
-		    });
-
-		},
-		watch:{
-	        '$route.query':function (val) {
-	            let tit=val.tit;
-				if(tit==1){
-					this.fTitle="增加公告"
-					this.id="";
-					this.title="";
-					this.content="请输入正文（建议字数限制在200~10000字以内）"
-				}else if(tit==2){
-					this.fTitle="查看公告";
-					if(val.id){
-						this.id=val.id;
-						this.getDetail(val.id)
-					}
-					
-				}else{
-					this.fTitle="编辑公告";
-					if(val.id){
-						this.id=val.id;
-						this.getDetail(val.id)
-					}
-
-				}
-				
-				
-				
-	        }
-    	},
 		created(){
 
 			let tit=this.$route.query.tit;
 			if(tit==1){
-				this.fTitle="增加公告";
+				this.fTitle="新增";
 				this.id="";
 				this.title="";
 				this.content="请输入正文（建议字数限制在200~10000字以内）"
 			}else if(tit==2){
-				this.fTitle="查看公告";
+				this.fTitle="查看";
 				this.getDetail(this.$route.query.id);
 				this.id=this.$route.query.id;
 			}else{
-				this.fTitle="编辑公告";
+				this.fTitle="编辑";
 				this.getDetail(this.$route.query.id);
 				this.id=this.$route.query.id;
 			}
@@ -159,15 +123,11 @@
 	      },
 	      insertImg(response, file, fileList) {
 	        var self=this;
-	        if(response.code==200){
-	          self.$refs.ue.insertImg('<img src="'+response.result[0]+'">')
-	        }else{
-	          self.$message({
-	            message: response.message,
-	            type: 'warning'
-	          });
+	        let img=response.baseUrl+response.filename;	
+	        console.log(img)	      
 
-	        }
+	        self.$refs.ue.insertImg('<img src="'+img+'">')
+	
 	      },
 	      getDetail(id){
 	      	var self=this;
@@ -179,17 +139,17 @@
 		        });
 		        self.axios({
 		          method: 'get',
-		          url:api.noticeView,
+		          url:api.journalFind,
 		          params:{
 		          	
 		          	id:id
 		          }      
 		        }).then(function (res) {       
-		            if(res.data.code==200){
+		            if(res.data.code==0){
 		              loading.close();
-		              self.title=res.data.result.title;
-		              self.updateDate=res.data.result.updateDate;
-		              self.content=res.data.result.content;
+		              self.title=res.data.data.title;
+		              self.updateDate=res.data.data.date;
+		              self.content=res.data.data.content;
 		              self.$refs.ue.editor.setContent(self.content);
 		              
 		            }else{
@@ -217,7 +177,7 @@
 	      	var self=this;
 	      	if(self.title==""){
 	      		self.$message({
-                    message:"请填写公告标题",
+                    message:"请填写标题",
                     type: 'warning'
                   }); 
 	      	}else{
@@ -229,14 +189,14 @@
 		        });
 		        self.axios({
 		          method: 'post',
-		          url:api.noticeSave,
+		          url:api.journalSave,
 		          data:{
 		          	title:self.title,
 		          	content:self.content,
-		          	id:self.id
+		          	_id:self.id
 		          }      
 		        }).then(function (res) {       
-		            if(res.data.code==200){
+		            if(res.data.code==0){
 		              loading.close();
 		              self.$message({
 		                    message:"提交成功",

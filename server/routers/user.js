@@ -49,12 +49,12 @@ user.post('/login',async ctx=>{
 
 user.post('/update',token.checkToken(),async ctx=>{
 	let info={
-		id:ctx.request.body.id,
+		id:ctx.request.body._id,
 		username:ctx.request.body.username,
-		password:ctx.request.body.password
+		password:sha1(ctx.request.body.password)
 	}
 	let isOK=await model.update(info);
-	if(isOK.ok){
+	if(isOK._id){
 		ctx.body={
 			code:0,
 			data:"",

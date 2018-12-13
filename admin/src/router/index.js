@@ -7,6 +7,9 @@ Vue.use(Router);
 import Home from '@/components/Home'
 import aboutme from '@/components/aboutme';
 import work from '@/components/work';
+import motto from '@/components/mottos';
+import user from '@/components/user';
+import blog from '@/components/blog';
 // 公告管理
 import Notice from '@/components/notice';
 // 编辑/添加/查看公告
@@ -36,9 +39,27 @@ const router=new Router({
                 meta: {requiresAuth: true}
             },
             {
+                path:'/motto',
+                name:'motto',
+                component:motto,
+                meta: {requiresAuth: true}
+            },
+            {
                 path:'/notice',
                 name:'notice',
                 component:Notice,
+                meta: {requiresAuth: true}
+            },
+            {
+                path:'/user',
+                name:'user',
+                component:user,
+                meta: {requiresAuth: true}
+            },
+            {
+                path:'/blog',
+                name:'blog',
+                component:blog,
                 meta: {requiresAuth: true}
             },
             {
