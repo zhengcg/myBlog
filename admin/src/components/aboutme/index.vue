@@ -106,7 +106,7 @@
 			    <el-input v-model="data.email" type="text" clearable></el-input>
 			  </el-form-item>
 			  <el-form-item label="头像">
-			    <el-upload class="upload-demo" drag :action="fileup" name="file" :show-file-list="false" :on-success="preview" :before-upload="beforeAvatarUpload">
+			    <el-upload class="upload-demo" drag :action="fileup" name="file" :show-file-list="false" :on-success="preview" :before-upload="beforeAvatarUpload" :headers="headers">
 	              <i class="el-icon-upload"></i>
 	              <div class="el-upload__text">将图片拖到此处，或<em  style="font-style: normal">点击上传</em></div>
 	              <div class="imgBox" v-show="headImg">
@@ -143,13 +143,18 @@ import api from '../../api'
 		data(){
 			return {
 		        
-		        data:{},
+		        data:{
+		        	skill:[]
+		        },
 		        basePop:false,
 		        introPop:false,
 		        inputVisible: false,
         		inputValue: '',
         		fileup:api.file,
         		headImg:"",
+        		headers:{
+        			authorization:`token ${this.$store.state.token}`
+        		}
 				
 				
 			}
@@ -226,10 +231,18 @@ import api from '../../api'
 	        }).then(function (res) {       
 	            if(res.data.code==0){
 	              loading.close();
-	              self.data=res.data.data;
-	              if(self.data.head){
-						self.headImg=res.data.baseUrl+res.data.data.head;
-					}
+	              if(res.data.data){
+	              	  self.data=res.data.data;
+		              if(self.data.head){
+							self.headImg=res.data.baseUrl+res.data.data.head;
+						}
+	              }else{
+	              	self.$message({
+	                    message:"无数据",
+	                    type: 'warning'
+	                  }); 
+	              }
+	              
 	            }else{
 	              loading.close();
 	                    

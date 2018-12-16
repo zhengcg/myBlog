@@ -14,5 +14,12 @@ export default {
 	journalList:'/api/journal/find',
 	journalFind:'/api/journal/findById',
 	journalDelete:'/api/journal/delete',
-	journalSave:'/api/journal/create'
+	journalSave:'/api/journal/create',
+	noteList:'/api/note/find',
+	noteFind:'/api/note/findById',
+	noteDelete:'/api/note/delete',
+	noteSave:'/api/note/create',
+	labelList:'/api/label/find',
+	labelDelete:'/api/label/delete',
+	labelSave:'/api/label/create'
 }

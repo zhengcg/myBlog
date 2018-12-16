@@ -30,7 +30,7 @@
 		            </el-input>
 		          </div>
 				  <div class="box">
-		            <el-upload class="selfImg"  :action="fileup" name="file"  :show-file-list="false" :on-success="insertImg" >
+		            <el-upload class="selfImg"  :action="fileup" name="file"  :show-file-list="false" :on-success="insertImg" :headers="headers">
 		                      <i id="selfImg"></i>
 		             </el-upload>
 		            <div class="editor-container">
@@ -80,7 +80,10 @@
 		         id:'',
 		         title:'',
 		         updateDate:'',
-		         fileup:api.file
+		         fileup:api.file,
+		         headers:{
+        			authorization:`token ${this.$store.state.token}`
+        		 }
 				
 				
 			}
@@ -124,8 +127,6 @@
 	      insertImg(response, file, fileList) {
 	        var self=this;
 	        let img=response.baseUrl+response.filename;	
-	        console.log(img)	      
-
 	        self.$refs.ue.insertImg('<img src="'+img+'">')
 	
 	      },
@@ -235,5 +236,27 @@
 	}
 </script>
 <style scoped lang="scss">
-	@import '../../assets/css/notice.scss'
+	#noticeDiv{
+	h3{
+		text-align:center;
+		font-size:20px;
+	}
+	.time{
+		text-align:center;
+		color:#999;
+		font-size:12px;
+		line-height:40px;
+	}
+	.headBox{
+		img{
+			width:100%;
+		}
+	}
+	.userInfoBox{
+		p{
+			line-height:1.5;
+			margin-bottom:15px;
+		}
+	}
+}
 </style>

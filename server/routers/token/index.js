@@ -29,7 +29,7 @@ let token={
 							message:"token失效"
 						}
 					}else{
-						console.log("token验证通过");
+						// console.log("token验证通过");
 						return next();
 						
 					}

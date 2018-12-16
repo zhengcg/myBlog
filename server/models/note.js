@@ -3,19 +3,22 @@ const mongoose=require('./db.js');
 const moment=require('moment');
 const Schema=new mongoose.Schema({
 	title:String,
+	// cover:String,
+	key:Array,
+	label:String,
 	date:{type: String,default: moment().format('YYYY-MM-DD HH:mm:ss')},
-	content:String
+	content:String,
+	html:String
 
 });
 
-Schema.statics.findPage=function(currentPage,pageSize,callback){
+Schema.statics.findPage=function(currentPage,pageSize,info,callback){
 	
-	this.countDocuments({},(err,count)=>{
+	this.countDocuments(info,(err,count)=>{
 		if(!err){
-			this.find({},{title:1,date:1})
+			this.find(info,{title:1,label:1,date:1})
 	        .skip((currentPage-1)*pageSize)
 	        .limit(pageSize)
-	        .sort({'_id':-1})
 	        .exec((error,res)=>{
 	        	if(!err){
 	        		callback(null,{count,res})
@@ -29,14 +32,12 @@ Schema.statics.findPage=function(currentPage,pageSize,callback){
 		}
 
 	});
-	
-    
 
 	
 }
-const Model=mongoose.model("journal",Schema);
+const Model=mongoose.model("note",Schema);
 
-let journal={
+let note={
 	create(info){
 		return new Promise((resolve,reject)=>{
 			Model.create(info,(err,res)=>{
@@ -80,9 +81,9 @@ let journal={
 
 	},
 
-	find(currentPage,pageSize){
+	find(currentPage,pageSize,info){
 		return new Promise((resolve,reject)=>{			
-			Model.findPage(currentPage,pageSize,(err,res)=>{
+			Model.findPage(currentPage,pageSize,info,(err,res)=>{
 				if(err){
 					reject(err);
 				}else{
@@ -111,4 +112,4 @@ let journal={
 
 }
 
-module.exports=journal
+module.exports=note

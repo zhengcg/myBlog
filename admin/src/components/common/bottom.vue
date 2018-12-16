@@ -4,5 +4,16 @@
 	</div>
 </template>
 <style lang="scss" scoped>
-@import "../../assets/css/bottom.scss"
+#bottom{
+	.bot{
+		height:52px;
+		line-height:52px;
+		color:#fff;
+		font-size:13px;
+		padding:0 13px 0 20px;
+		border-top: 1px solid #CECECE;
+    	background: #2a2725;
+    	box-sizing:border-box;
+	}
+}
 </style>

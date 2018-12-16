@@ -194,5 +194,4 @@ import api from '../../api'
 	}
 </script>
 <style scoped lang="scss">
-	@import '../../assets/css/notice.scss'
 </style>

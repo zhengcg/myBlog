@@ -1,5 +1,6 @@
 const Router=require('koa-router');
 const multer = require('koa-multer');
+const token=require('./token');
 const path=require('path');
 const baseUrl=require('./base.js');
 const file=new Router();
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-file.post('/upload',upload.single('file'),async (ctx,next)=>{
+file.post('/upload',token.checkToken(),upload.single('file'),async (ctx,next)=>{
 	  ctx.body = {
 	  	baseUrl:baseUrl,
 	    filename: ctx.req.file.filename  //返回文件名 

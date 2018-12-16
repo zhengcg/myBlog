@@ -1,5 +1,5 @@
 <template>
-	<div id="user">
+	<div id="notice">
 		<div class="targ">
 			<ol class="breadcrumb">
 				<li>学习笔记</li>
@@ -9,88 +9,394 @@
 			<div class="titHead">
 				<el-row>
 				  <el-col :xs="24" :sm="14" :md="14" :lg="8" :xl="8">
-				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-graduation-cap fa-fw"></i> 学习笔记</h1>			  	
+				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-coffee fa-fw"></i> 学习笔记 </h1>			  	
 				  </el-col>
 				  <el-col :xs="24" :sm="10" :md="10" :lg="16" :xl="16">
 				  	<div class="titHeadTab">
-					  	<el-button type="primary" size="small">发表</el-button>		
+				  		<el-button type="primary" size="small" @click="workPop=true">标签管理</el-button>	
+					  	<el-button type="primary" size="small" @click="gotoDetail(1,0)">创作</el-button>	
 					</div>
 				  </el-col>
 				  
 				</el-row>
 			</div>
 			<el-card class="box-card">
-				<div slot="header" class="clearfix">
-				    <span>基本信息</span>
-				 </div>
-				<div class="box">
-		            <el-input
-		              placeholder="请输入标题（建议30字以内）"
-		              clearable 
-		              maxlength="30"
-		              v-model="title">
-		            </el-input>
-		        </div>
-        	</el-card>
-        	<el-card class="box-card">
-        		<div slot="header" class="clearfix">
-				    <span>正文</span>
-				 </div>
-				<mavon-editor :ishljs = "true" v-model="content" ref="md" @imgAdd="$imgAdd" @change="change" style="min-height: 600px"/>
-	            
-        	</el-card>
+				<el-form :inline="true" :model="form" class="demo-form-inline" size="small">	
+			 	   <el-form-item label="标签">
+				    <el-select v-model="form.label" @change="getList(1)">
+				      <el-option  label="全部" value=""></el-option>
+			    	  <el-option :label="item.name" :value="item.name" :key="item._id" v-for="item in labels"></el-option>
+				    </el-select>
+				  </el-form-item>				    
+				</el-form>
+				<el-table :data="data" border size="small" style="width: 100%">
+				    <el-table-column prop="title" label="标题"></el-table-column>
+				    <el-table-column prop="label" label="标签"></el-table-column>
+				    <el-table-column prop="date" label="时间"></el-table-column>
+				    <el-table-column label="操作">
+				        <template slot-scope="scope">
+				        	<el-button type="text" size="small" @click="gotoDetail(2,scope.row._id)">查看</el-button>
+				        	<el-button type="text" size="small" @click="gotoDetail(3,scope.row._id)">编辑</el-button>
+				        	<el-button type="text" size="small" @click="remove(scope.row._id)">删除</el-button>
+				        </template>
+			        </el-table-column>
+				</el-table>
+				<div class="pageDiv"  v-if="total>0">
+					<el-pagination
+				      @size-change="handleSizeChange"
+				      @current-change="handleCurrentChange"
+				      :current-page="currentPage"
+				      :page-sizes="[10,15, 20, 25, 30]"
+				      :page-size="pageSize"
+				      layout="total, sizes, prev, pager, next, jumper"
+				      :total="total">
+				    </el-pagination>
+				</div>
+
+			</el-card>
 						
 		</div>
-    </div>
+
+		<el-dialog title="标签管理" :visible.sync="workPop" width="40%" >
+		  	<div style="min-height:200px;">
+		  		<el-tag
+				  :key="tag._id"
+				  v-for="tag in labels"
+				  closable
+				  :disable-transitions="false"
+				  @close="handleClose(tag.name)">
+				  {{tag.name}}
+				</el-tag>
+				<el-input
+				  class="input-new-tag"
+				  v-if="inputVisible"
+				  v-model="inputValue"
+				  ref="saveTagInput"
+				  size="small"
+				  @keyup.enter.native="handleInputConfirm"
+				  @blur="handleInputConfirm"
+				>
+				</el-input>
+				<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New label</el-button>
+			</div>
+		</el-dialog>
+	</div>
 </template>
-
 <script>
-    import { mavonEditor } from 'mavon-editor'
-    import 'mavon-editor/dist/css/index.css';
-    // import marked from 'marked';
-    // import highlightJs from 'highlight.js';
-    export default {
-        data: function(){
-            return {
-                content:'',
-                html:'',
-                configs: {
-                }
-            }
-        },
-        components: {
-            mavonEditor
-        },
-        mounted(){
+import api from '../../api'
+	export default{
+		data(){
+			return {
+		        form:{
+		        	label:''
+		        },
+		        data: [],
+		        labels:[],
+		        workPop:false,
+		        pageSize:10,
+		        currentPage: 1,
+		        total:0,
+		        inputVisible: false,
+        		inputValue: ''
+				
+				
+			}
+		},
+		computed:{
 
-        },
-        methods: {
-            // 将图片上传到服务器，返回地址替换到md中
-            $imgAdd(pos, $file){
-                var formdata = new FormData();
-                formdata.append('file', $file);
-                // 这里没有服务器供大家尝试，可将下面上传接口替换为你自己的服务器接口
-                this.$axios({
-                    url: '/common/upload',
-                    method: 'post',
-                    data: formdata,
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                }).then((url) => {
-                    this.$refs.md.$img2Url(pos, url);
-                })
-            },
-            change(value, render){
-                // render 为 markdown 解析后的结果
-                this.html = render;
-            },
-            submit(){
-                console.log(this.content);
-                console.log(this.html);
-                this.$message.success('提交成功！');
-            }
-        }
-    }
+		},
+		created(){
+			this.getLabel();
+			this.getList();
+
+		},
+		mounted(){
+			
+		},
+		methods:{
+		  handleClose(tag) {
+	        // this.labels.splice(this.labels.indexOf(tag), 1);
+	        this.deleteLabel(tag);
+	      },
+
+	      showInput() {
+	        this.inputVisible = true;
+	        this.$nextTick(_ => {
+	          this.$refs.saveTagInput.$refs.input.focus();
+	        });
+	      },
+
+	      handleInputConfirm() {
+	        let inputValue = this.inputValue;
+	        if (inputValue) {
+	          // this.labels.push(inputValue);
+	          this.saveLabel(inputValue);
+	        }
+	        this.inputVisible = false;
+	        this.inputValue = '';
+	        
+	      },
+		  handleSizeChange(val) {
+	        this.pageSize=val;
+	        this.getList();
+	      },
+	      handleCurrentChange(val) {
+	        this.currentPage=val;
+	        this.getList();
+
+	      },
+	      remove(id){
+	      	var self=this;
+	      		this.$confirm('确认删除吗?', '提示', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消',
+		          type: 'warning'
+		        }).then(() => {
+		        	const loading=self.$loading({
+			          lock: true,
+			          text: '请求中……',
+			          spinner: 'el-icon-loading',
+			          background: 'rgba(0, 0, 0, 0.7)'
+			        });
+			        self.axios({
+			          method: 'get',
+			          url:api.noteDelete,
+			          params:{id:id} 
+			        }).then(function (res) {
+		            loading.close();
+		            if(res.data.code==0){
+		            	 
+		                 self.$message({
+		                  message:"删除成功",
+		                  type: 'success'
+		                }); 
+		                if(self.data.length==1&&self.currentPage>1){
+		                	self.currentPage--
+		                } 
+		                self.getList()	                  
+
+		              }else{
+		                self.$message({
+		                  message:res.data.message,
+		                  type: 'warning'
+		                });  
+		                
+		              }
+		                  
+		          }).catch(function (error) {
+		            loading.close();
+		          　self.$message({
+		              message:error,
+		              type: 'warning'
+		            }); 
+		          }); 
+		          
+		        }).catch(() => {
+		          this.$message({
+		            type: 'info',
+		            message: '已取消删除'
+		          });          
+		        });
+
+
+	      },
+	      getList(){
+	      	var self=this;
+	      	const loading=self.$loading({
+	          lock: true,
+	          text: '请求中……',
+	          spinner: 'el-icon-loading',
+	          background: 'rgba(0, 0, 0, 0.7)'
+	        });
+	        let submitData={
+	        	pageNo:this.currentPage,
+	        	pageSize:this.pageSize
+
+	        }
+	        if(self.form.label){
+	        	submitData.label=self.form.label;
+	        }
+	        
+	        self.axios({
+	          method: 'get',
+	          url:api.noteList,
+	          params:submitData 
+	        }).then(function (res) {       
+	            if(res.data.code==0){
+	              loading.close();
+	              self.total=res.data.data.count;
+	              self.data=res.data.data.res;
+	            }else{
+	              loading.close();
+	                    
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'warning'
+	                  });  
+	                 
+	            }
+
+	                   
+	          }).catch(function (error) {
+	            loading.close();
+	            self.$message({
+	                    message:error,
+	                    type: 'warning'
+	                  }); 
+	                       　　
+	          });
+
+	      },
+	      getLabel(){
+	      	var self=this;
+	      	const loading=self.$loading({
+	          lock: true,
+	          text: '请求中……',
+	          spinner: 'el-icon-loading',
+	          background: 'rgba(0, 0, 0, 0.7)'
+	        });
+	        
+	        self.axios({
+	          method: 'get',
+	          url:api.labelList    
+	        }).then(function (res) {       
+	            if(res.data.code==0){
+	              loading.close();
+	              self.labels=res.data.data;
+	            }else{
+	              loading.close();
+	                    
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'warning'
+	                  });  
+	                 
+	            }
+
+	                   
+	          }).catch(function (error) {
+	            loading.close();
+	            self.$message({
+	                    message:error,
+	                    type: 'warning'
+	                  }); 
+	                       　　
+	          });
+
+	      },
+	      saveLabel(name){
+	      	var self=this;
+	      	const loading=self.$loading({
+	          lock: true,
+	          text: '请求中……',
+	          spinner: 'el-icon-loading',
+	          background: 'rgba(0, 0, 0, 0.7)'
+	        });
+	        
+	        self.axios({
+	          method: 'post',
+	          url:api.labelSave,
+	          data:{name:name}    
+	        }).then(function (res) {       
+	            if(res.data.code==0){
+	              loading.close();
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'success'
+	                  }); 
+	              self.getLabel()
+	        		
+	            }else{
+	              loading.close();
+	                    
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'warning'
+	                  });  
+	                 
+	            }
+
+	                   
+	          }).catch(function (error) {
+	            loading.close();
+	            self.$message({
+	                    message:error,
+	                    type: 'warning'
+	                  }); 
+	                       　　
+	          });
+
+	      },
+	      deleteLabel(name){
+	      	var self=this;
+	      	const loading=self.$loading({
+	          lock: true,
+	          text: '请求中……',
+	          spinner: 'el-icon-loading',
+	          background: 'rgba(0, 0, 0, 0.7)'
+	        });
+	        
+	        self.axios({
+	          method: 'get',
+	          url:api.labelDelete,
+	          params:{name:name}    
+	        }).then(function (res) {       
+	            if(res.data.code==0){
+	              loading.close();
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'success'
+	                  }); 
+	              self.getLabel();
+	        		
+	            }else{
+	              loading.close();
+	                    
+	              self.$message({
+	                    message:res.data.message,
+	                    type: 'warning'
+	                  });  
+	                 
+	            }
+
+	                   
+	          }).catch(function (error) {
+	            loading.close();
+	            self.$message({
+	                    message:error,
+	                    type: 'warning'
+	                  }); 
+	                       　　
+	          });
+
+	      },
+	      gotoDetail(tit,id){
+	      	this.$router.push({
+	      		name:'addBlog',
+	      		query:{
+	      			tit:tit,
+	      			id:id
+	      		}
+	      	})
+	      }
+
+
+		}
+	}
 </script>
 <style scoped lang="scss">
-    @import '../../assets/css/notice.scss'
+	.el-tag {
+	    margin-right: 10px;
+	    margin-bottom:10px;
+	  }
+	  .button-new-tag {
+	    height: 32px;
+	    line-height: 30px;
+	    padding-top: 0;
+	    padding-bottom: 0;
+	  }
+	  .input-new-tag {
+	    width: 90px;
+	    vertical-align: top;
+	  }
 </style>

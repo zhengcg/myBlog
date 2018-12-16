@@ -4,6 +4,7 @@
       <div class="error-desc">啊哦~ 你所访问的页面不存在</div>
       <div class="error-handle">
           <el-button class="error-btn" type="primary" size="large" @click="goBack">返回上一页</el-button>
+          <el-button class="error-btn" type="primary" size="large" @click="goIndex">首 页</el-button>
       </div>
   </div>
 </template>
@@ -31,6 +32,11 @@ export default {
     methods: {
         goBack(){
             this.$router.go(-1);
+        },
+        goIndex(){
+            this.$router.push({
+                name:'index'
+            })
         }
     }
 }

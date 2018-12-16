@@ -3,21 +3,21 @@ import Router from 'vue-router'
 import store from '@/store/store'
 Vue.use(Router);
 
-
+// 管理端组件
 import Home from '@/components/Home'
 import aboutme from '@/components/aboutme';
 import work from '@/components/work';
 import motto from '@/components/mottos';
 import user from '@/components/user';
 import blog from '@/components/blog';
-// 公告管理
+import addBlog from '@/components/blog/addBlog';
 import Notice from '@/components/notice';
-// 编辑/添加/查看公告
 import addNotice from '@/components/notice/addNotice';
-//404
 import NotFound from '@/components/404';
-// 登陆
 import Login from '@/components/login';
+
+// 客户端组件
+import Index from '@/pages/index';
 
 const router=new Router({
   routes: [
@@ -63,6 +63,12 @@ const router=new Router({
                 meta: {requiresAuth: true}
             },
             {
+                path:'/addBlog',
+                name:'addBlog',
+                component:addBlog,
+                meta: {requiresAuth: true}
+            },
+            {
                 path:'/addNotice',
                 name:'addNotice',
                 component:addNotice,
@@ -76,7 +82,12 @@ const router=new Router({
         ]
     },
     {
-        path:'/',
+        path:'/index',
+        name:'index',
+        component:Index
+    },
+    {
+        path:'/admin',
         redirect:'/home'
     },
     {
@@ -88,10 +99,14 @@ const router=new Router({
         path:'/404',
         name:'404',
         component:NotFound
-    },   
+    },
+    {
+        path:'/',
+        redirect:'/index'
+    },
     {
         path:'*',
-        redirect:'/login'
+        redirect:'/404'
     }
     
   ]
