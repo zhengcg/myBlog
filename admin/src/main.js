@@ -8,6 +8,7 @@ import router from './router'
 import axios from './server'
 import 'font-awesome/css/font-awesome.min.css'
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 import './assets/css/self.scss';//覆盖样式 
 import 'babel-polyfill';
 import '../static/ue/ueditor.config.js';

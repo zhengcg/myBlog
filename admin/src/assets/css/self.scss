@@ -1,3 +1,4 @@
+#home{
 .sidebar > ul {
     height:100%;
     background: #3a3633;
@@ -309,9 +310,14 @@ h1 {
     background-color: #f4f4f5;
     color: #909399;
 }
+}
 
-
-* { margin: 0; padding: 0 }
+* { margin: 0; padding: 0 ;
+    transition: .5s;
+    -moz-transition: .5s; /* Firefox 4 */
+    -webkit-transition: .5s; /* Safari 和 Chrome */
+    -o-transition: .5s; /* Opera */
+}
 body { font: 15px "Microsoft YaHei", Arial, Helvetica, sans-serif; color: #555; background: #efefef; line-height: 1.5; }
 img { border: 0; display: block }
 ul, li { list-style: none; }
@@ -321,3 +327,14 @@ a:hover { text-decoration: none; color: #000; }
 .blank { height: 20px; overflow: hidden; width: 100%; margin: auto; clear: both }
 .f_l { float: left }
 .f_r { float: right }
+.clientBox{
+    max-width: 1200px;
+    margin:0 auto;
+}
+@media screen and ( max-width: 1200px ) {
+    .clientBox{
+        padding:0 20px;
+        box-sizing:border-box;
+
+    }
+}
