@@ -4,20 +4,22 @@ import store from '@/store/store'
 Vue.use(Router);
 
 // 管理端组件
-import Home from '@/components/Home'
-import aboutme from '@/components/aboutme';
-import work from '@/components/work';
-import motto from '@/components/mottos';
-import user from '@/components/user';
-import blog from '@/components/blog';
-import addBlog from '@/components/blog/addBlog';
-import Notice from '@/components/notice';
-import addNotice from '@/components/notice/addNotice';
-import NotFound from '@/components/404';
-import Login from '@/components/login';
+const Home = ()=>import('@/components/Home');
+const aboutme = ()=>import('@/components/aboutme');
+const work = ()=>import('@/components/work');
+const motto = ()=>import('@/components/mottos');
+const user = ()=>import('@/components/user');
+const blog = ()=>import('@/components/blog');
+const addBlog = ()=>import('@/components/blog/addBlog');
+const Notice = ()=>import('@/components/notice');
+const addNotice = ()=>import('@/components/notice/addNotice');
+const NotFound = ()=>import('@/components/404');
+const Login = ()=>import('@/components/login');
+const Album = ()=>import('@/components/album');
+const AlbumDetail = ()=>import('@/components/album/albumDetail');
 
 // 客户端组件
-import Index from '@/pages/index';
+const Index = ()=>import('@/pages/index')
 
 const router=new Router({
   routes: [
@@ -72,6 +74,18 @@ const router=new Router({
                 path:'/addNotice',
                 name:'addNotice',
                 component:addNotice,
+                meta: {requiresAuth: true}
+            },
+            {
+                path:'/album',
+                name:'album',
+                component:Album,
+                meta: {requiresAuth: true}
+            },
+            {
+                path:'/albumDetail',
+                name:'albumDetail',
+                component:AlbumDetail,
                 meta: {requiresAuth: true}
             },
             {

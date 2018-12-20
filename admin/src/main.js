@@ -14,8 +14,6 @@ import '../static/ue/ueditor.config.js';
 import '../static/ue/ueditor.all.js';
 import '../static/ue/lang/zh-cn/zh-cn.js';
 import '../static/ue/ueditor.parse.min.js';
-// import VueClipboard from 'vue-clipboard2';
-// Vue.use(VueClipboard)
 Vue.prototype.axios = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);

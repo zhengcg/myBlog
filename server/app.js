@@ -11,6 +11,7 @@ const moto=require('./routers/moto');
 const journal=require('./routers/journal');
 const note=require('./routers/note');
 const label=require('./routers/label');
+const album=require('./routers/album');
 const app=new Koa();
 const router=new Router();
 app.use(bodyParser());
@@ -25,6 +26,7 @@ router.use('/api/moto',moto.routes());
 router.use('/api/journal',journal.routes());
 router.use('/api/note',note.routes());
 router.use('/api/label',label.routes());
+router.use('/api/album',album.routes());
 app.use(router.routes());
 
 app.listen(3000,()=>{

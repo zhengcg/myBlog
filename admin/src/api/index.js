@@ -21,5 +21,10 @@ export default {
 	noteSave:'/api/note/create',
 	labelList:'/api/label/find',
 	labelDelete:'/api/label/delete',
-	labelSave:'/api/label/create'
+	labelSave:'/api/label/create',
+	albumCreate:'/api/album/create',
+	albumDelete:'/api/album/delete',
+	albumUpdate:'/api/album/update',
+	albumFind:'/api/album/find',
+	albumFindById:'/api/album/findById'
 }

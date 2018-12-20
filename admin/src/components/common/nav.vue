@@ -54,6 +54,11 @@
                         title: '说说管理'
                     },
                     {
+                        icon: 'fa fa-camera fa-fw',
+                        index: 'album',
+                        title: '相册管理'
+                    },
+                    {
                         icon: 'fa fa-graduation-cap fa-fw',
                         index: 'blog',
                         title: '学习笔记'
