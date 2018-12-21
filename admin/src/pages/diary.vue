@@ -1,12 +1,6 @@
 <template>
 	<div>
-		<div class="bannerBox">
-			<img src="../assets/images/banner.jpg">
-			<div class="textBox">
-				<h1>斯柯达就离开房间号少的可怜福建省大公鸡反倒是个梵蒂冈地负海涵</h1>
-				<p>—— 2018-09-10</p>
-			</div>
-		</div>
+		
 	  	<el-card class="box-card" style="margin-bottom:20px">
 		  <div slot="header" class="clearfix">
 		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>

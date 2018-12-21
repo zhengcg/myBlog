@@ -331,6 +331,13 @@ a:hover { text-decoration: none; color: #000; }
     max-width: 1200px;
     margin:0 auto;
 }
+.footer{
+    text-align: center;
+    height:100px;
+    line-height:100px;
+    color: #999;
+    font-size:12px;
+}
 @media screen and ( max-width: 1200px ) {
     .clientBox{
         padding:0 20px;

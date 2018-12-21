@@ -19,7 +19,9 @@ const Album = ()=>import('@/components/album');
 const AlbumDetail = ()=>import('@/components/album/albumDetail');
 
 // 客户端组件
-const Index = ()=>import('@/pages/index')
+const clientHome = ()=>import('@/pages/Home');
+const Index = ()=>import('@/pages/index');
+const Diary = ()=>import('@/pages/diary');
 
 const router=new Router({
   routes: [
@@ -96,9 +98,26 @@ const router=new Router({
         ]
     },
     {
-        path:'/index',
-        name:'index',
-        component:Index
+        path:'/clientHome',
+        name:'clientHome',
+        component:clientHome,
+        children:[
+            {
+                path:'/index',
+                name:'index',
+                component:Index
+            },
+            {
+                path:'/diary',
+                name:'diary',
+                component:Diary
+            },
+            {
+                path:'',
+                redirect:'/index'
+            }
+
+        ]
     },
     {
         path:'/admin',
@@ -116,7 +135,7 @@ const router=new Router({
     },
     {
         path:'/',
-        redirect:'/index'
+        redirect:'/clientHome'
     },
     {
         path:'*',

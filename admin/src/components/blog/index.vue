@@ -9,7 +9,7 @@
 			<div class="titHead">
 				<el-row>
 				  <el-col :xs="24" :sm="14" :md="14" :lg="8" :xl="8">
-				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-coffee fa-fw"></i> 学习笔记 </h1>			  	
+				  	<h1 class="page-title txt-color-blueDark"><i class="fa fa-graduation-cap fa-fw"></i> 学习笔记 </h1>			  	
 				  </el-col>
 				  <el-col :xs="24" :sm="10" :md="10" :lg="16" :xl="16">
 				  	<div class="titHeadTab">
