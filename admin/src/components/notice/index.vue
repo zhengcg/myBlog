@@ -150,7 +150,7 @@ import api from '../../api'
 	          method: 'get',
 	          url:api.journalList,
 	          params:{
-	          	pageNo:this.currentPage,
+	          	currentPage:this.currentPage,
 	        	pageSize:this.pageSize
 	          }      
 	        }).then(function (res) {       

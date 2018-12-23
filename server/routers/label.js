@@ -2,7 +2,7 @@ const Router=require('koa-router');
 const model=require('../models/label');
 const token=require('./token');
 const label=new Router();
-label.get('/find',token.checkToken(),async ctx=>{
+label.get('/find',async ctx=>{
 	let res=await model.find();
 	if(res){
 		ctx.body={

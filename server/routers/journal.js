@@ -3,7 +3,7 @@ const model=require('../models/journal');
 const token=require('./token');
 const moment=require('moment');
 const journal=new Router();
-journal.get('/find',token.checkToken(),async ctx=>{
+journal.get('/find',async ctx=>{
 	// console.log(ctx.query.currentPage,ctx.query.pageSize);
 	let currentPage= parseInt(ctx.query.currentPage);
 	let pageSize= parseInt(ctx.query.pageSize);
@@ -25,7 +25,7 @@ journal.get('/find',token.checkToken(),async ctx=>{
 	}
 });
 
-journal.get('/findById',token.checkToken(),async ctx=>{
+journal.get('/findById',async ctx=>{
 	let res=await model.findById(ctx.query.id);
 	if(res){
 		ctx.body={

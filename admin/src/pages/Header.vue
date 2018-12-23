@@ -8,17 +8,17 @@
 		    <ul id="starlist">
 		      <li><router-link :to="{name:'index'}">首页</router-link></li>
 		      <li><router-link :to="{name:'diary'}">学习笔记</router-link></li>
-		      <li><a href="javascript:;">生活随笔</a></li>
+		      <li><router-link :to="{name:'article'}">生活随笔</router-link></li>
 		      <li><a href="javascript:;">相册</a></li>
-		      <li><a href="javascript:;">关于我</a></li>
+		      <li><router-link :to="{name:'resume'}">关于我</router-link></li>
 		    </ul>
 		    <el-collapse-transition>
 		    <ul id="miniList" v-show="isShow">
 		      <li><router-link :to="{name:'index'}">首页</router-link></li>
-		      <li><a href="javascript:;">学习笔记</a></li>
-		      <li><a href="javascript:;">生活随笔</a></li>
+		      <li><router-link :to="{name:'diary'}">学习笔记</router-link></li>
+		      <li><router-link :to="{name:'article'}">生活随笔</router-link></li>
 		      <li><a href="javascript:;">相册</a></li>
-		      <li><a href="javascript:;">关于我</a></li>
+		      <li><router-link :to="{name:'resume'}">关于我</router-link></li>
 		    </ul>
 		    </el-collapse-transition>
 		  </nav>
@@ -50,6 +50,10 @@
 </script>
 <style scoped lang="scss">
 #header{
+	transition: .5s;
+    -moz-transition: .5s; /* Firefox 4 */
+    -webkit-transition: .5s; /* Safari 和 Chrome */
+    -o-transition: .5s; /* Opera */
 	position: fixed;
 	height:80px;
 	background:#fff;
@@ -115,6 +119,7 @@
 			left:0;
 			top:80px;
 			box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
+			background:rgba(255,255,255,0.9);
 			li{
 				float:none;
 				a{

@@ -3,69 +3,27 @@
 		<div class="bannerBox">
 			<img src="../assets/images/banner.jpg">
 			<div class="textBox">
-				<h1>斯柯达就离开房间号少的可怜福建省大公鸡反倒是个梵蒂冈地负海涵</h1>
-				<p>—— 2018-09-10</p>
+				<h1>{{motto.autograph}}</h1>
+				<p>—— {{motto.date}}</p>
 			</div>
 		</div>
-	  	<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only" ><i class="el-icon-time"></i> 2018-10-10</span>
+	  	<el-card class="box-card" style="margin-bottom:20px" v-for="item in data" :key="item._id">
+		  <div slot="header" class="clearfix headBox" @click="gotoDetail(item._id)">
+		    <span>{{item.title}}</span>
+		    <span class="pull-right hidden-xs-only" ><i class="el-icon-time"></i> {{item.date}}</span>
 		  </div>
 		  <div class="bodyBox">
 		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
+		  		<label>标签：{{item.label}}<span class="pull-right"><i class="el-icon-time"></i> {{item.date}}</span></label>
+		  		<label>关键字：<span v-for="i in item.key">{{i}}</span></label>
 		  	</div>
 		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
+		  		{{item.remark}}
 		  	</div>
 		  </div>
 		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
-		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
-		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
+		<el-card class="box-card">
+			<router-link to="/diary" class="more">查看更多</router-link>
 		</el-card>
 			
 	</div>
@@ -75,13 +33,113 @@
 	export default{
 		data(){
 			return {
+				motto:{},
+				data:[]
+				
 				
 			}
 		},
 		
 		created(){
+			this.getMotto();
+			this.getData();
+			
 		},
 		methods:{
+			getMotto(){
+				var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        self.axios({
+		          method: 'get',
+		          url:api.motoList     
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              if(res.data.data){
+		              	self.motto=res.data.data;
+		              }else{
+		              	self.$message({
+		                    message:"没有数据",
+		                    type: 'warning'
+		                  }); 
+		              }
+		              
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+			},
+			getData(){
+				var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        self.axios({
+		          method: 'get',
+		          url:api.noteTen     
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              if(res.data.data){
+		              	self.data=res.data.data;
+		              }else{
+		              	self.$message({
+		                    message:"没有数据",
+		                    type: 'warning'
+		                  }); 
+		              }
+		              
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+
+			},
+			gotoDetail(id){
+				this.$router.push({
+					name:'diaryDetail',
+					query:{id:id}
+				})
+			}
+			
 
 		}
 	}
@@ -116,6 +174,16 @@
 		p{
 			text-align:right;
 		}
+	}
+}
+.more{
+	display:block;
+	text-align:center;
+}
+.headBox{
+	cursor:pointer;
+	&:hover{
+		color:#409EFF
 	}
 }
 .bodyBox{

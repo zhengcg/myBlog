@@ -209,7 +209,7 @@ import api from '../../api'
 	          background: 'rgba(0, 0, 0, 0.7)'
 	        });
 	        let submitData={
-	        	pageNo:this.currentPage,
+	        	currentPage:this.currentPage,
 	        	pageSize:this.pageSize
 
 	        }

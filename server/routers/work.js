@@ -2,7 +2,7 @@ const Router=require('koa-router');
 const model=require('../models/work');
 const token=require('./token');
 const work=new Router();
-work.get('/find',token.checkToken(),async ctx=>{
+work.get('/find',async ctx=>{
 	// console.log(ctx.query.currentPage,ctx.query.pageSize);
 	let currentPage= parseInt(ctx.query.currentPage);
 	let pageSize= parseInt(ctx.query.pageSize);

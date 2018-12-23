@@ -3,7 +3,7 @@ const model=require('../models/aboutme.js');
 const token=require('./token');
 const baseUrl=require('./base.js');
 const aboutme=new Router();
-aboutme.get('/find',token.checkToken(),async ctx=>{
+aboutme.get('/find',async ctx=>{
 	let res=await model.find();
 	if(res){
 		ctx.body={

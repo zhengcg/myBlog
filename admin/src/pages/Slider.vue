@@ -18,23 +18,19 @@
 		<el-card class="box-card" style="margin-bottom:20px;">
 	  		<div slot="header" class="clearfix">
 			    <span style="vertical-align: middle"><i class="fa fa-graduation-cap fa-fw" style="color:#409EFF"></i> 学习笔记</span>
-			    <el-button style="float: right; padding: 3px 0" type="text">查看<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+			    <el-button style="float: right; padding: 3px 0" type="text"  @click="gotoDiary">查看<i class="el-icon-arrow-right el-icon--right"></i></el-button>
 			</div>
 		  	<div class="noteBox">
-		  		<el-tag>html</el-tag><el-tag>css</el-tag><el-tag>ES6</el-tag><el-tag>NodeJS</el-tag>
+		  		<el-tag v-for="item in labels" :key="item._id" @click.native="gotoDiary(item)">{{item.name}}</el-tag>
 		  	</div>
 		</el-card>
 		<el-card class="box-card" style="margin-bottom:20px;">
 	  		<div slot="header" class="clearfix">
 			    <span style="vertical-align: middle"><i class="fa fa-coffee fa-fw" style="color:#409EFF"></i> 生活随笔</span>
-			    <el-button style="float: right; padding: 3px 0" type="text">更多<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+			    <el-button style="float: right; padding: 3px 0" type="text" @click.native="gotoArticle">更多<i class="el-icon-arrow-right el-icon--right"></i></el-button>
 			</div>
 		  	<div class="blogBox">
-		  		<p><a href="javascript:;">红尘来呀来，去呀去，来去一场空，红尘来呀来</a></p>
-		  		<p><a href="javascript:;">红尘来呀来，去呀去，来去一场空，红尘来呀来</a></p>
-		  		<p><a href="javascript:;">红尘来呀来，去呀去，来去一场空，红尘来呀来</a></p>
-		  		<p><a href="javascript:;">红尘来呀来，去呀去，来去一场空，红尘来呀来</a></p>
-		  		<p><a href="javascript:;">红尘来呀来，去呀去，来去一场空，红尘来呀来</a></p>
+		  		<p v-for="item in blog" :key="item._id"><router-link :to="{ name: 'articleDetail', query: { id: item._id }}">{{item.title}}</router-link></p>
 		  	</div>
 		</el-card>
 		<el-card class="box-card" style="margin-bottom:20px;">
@@ -44,28 +40,10 @@
 			</div>
 		  	<div class="photoBox">
 		  		<el-row :gutter="10">
-				  <el-col :span="12">
+				  <el-col :span="12"  v-for="item in album" :key="item._id">
 				  	<div class="box">
-				  		<img src="http://localhost:3000/upload/1544689682245.png">			
-				  		<div class="photoName">相册名字还是</div>  		
-				  	</div>
-				  </el-col>
-				  <el-col :span="12">
-				  	<div class="box">
-				  		<img src="http://localhost:3000/upload/1544689682245.png">			
-				  		<div class="photoName">相册名字还是</div>  		
-				  	</div>
-				  </el-col>
-				  <el-col :span="12">
-				  	<div class="box">
-				  		<img src="http://localhost:3000/upload/1544689682245.png">			
-				  		<div class="photoName">相册名字还是</div>  		
-				  	</div>
-				  </el-col>
-				  <el-col :span="12">
-				  	<div class="box">
-				  		<img src="http://localhost:3000/upload/1544689682245.png">			
-				  		<div class="photoName">相册名字还是</div>  		
+				  		<img :src="item.cover">			
+				  		<div class="photoName">{{item.name}}</div>  		
 				  	</div>
 				  </el-col>
 				</el-row>
@@ -79,13 +57,150 @@
 	export default{
 		data(){
 			return {
+				album:[],
+				blog:[],
+				labels:[]
 				
 			}
 		},
 		
 		created(){
+			this.getAlbum();
+			this.getBlog();
+			this.getLabel();
 		},
 		methods:{
+			getAlbum(){
+				let self=this;
+				const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        self.axios({
+		          method: 'get',
+		          url:api.albumFind     
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              self.album=res.data.data;
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+			},
+			getBlog(){
+				var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        
+		        self.axios({
+		          method: 'get',
+		          url:api.journalList,
+		          params:{
+		          	currentPage:1,
+		        	pageSize:5
+		          }      
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              self.blog=res.data.data.res;
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+			},
+			getLabel(){
+				var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        
+		        self.axios({
+		          method: 'get',
+		          url:api.labelList    
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              self.labels=res.data.data;
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+			},
+			gotoDiary(item){
+
+				if(item._id){
+					this.$router.push({
+						name:'diary',
+						query:{id:item._id,name:item.name}
+					})
+				}else{
+					this.$router.push({
+						name:'diary'
+					})
+
+				}
+			},
+			gotoArticle(){
+
+				this.$router.push({
+					name:'article'
+				})
+			}
 
 		}
 	}

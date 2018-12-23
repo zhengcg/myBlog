@@ -1,65 +1,41 @@
 <template>
 	<div>
+		<el-card class="box-card" style="margin-bottom:20px">
+			<div slot="header" class="clearfix">
+			    <span>标签分类</span>
+			  </div>
+			<el-tag :class="label._id==0?'el-tag--success':'default'" @click.native="changeLabel(0,'全部')">全部</el-tag>
+			<el-tag :class="label._id==item._id?'el-tag--success':'default'" v-for="item in labels" :key="item._id" @click.native="changeLabel(item._id,item.name)">{{item.name}}</el-tag>
+		</el-card>
 		
-	  	<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only" ><i class="el-icon-time"></i> 2018-10-10</span>
+	  	<el-card class="box-card" style="margin-bottom:20px" v-for="item in data" :key="item._id"  v-if="total>0">
+		  <div slot="header" class="clearfix  headBox" @click="gotoDetail(item._id)">
+		    <span>{{item.title}}</span>
+		    <span class="pull-right hidden-xs-only" ><i class="el-icon-time"></i> {{item.date}}</span>
 		  </div>
 		  <div class="bodyBox">
 		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
+		  		<label>标签：{{item.label}}<span class="pull-right"><i class="el-icon-time"></i> {{item.date}}</span></label>
+		  		<label>关键字：<span v-for="i in item.key">{{i}}</span></label>
 		  	</div>
 		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
+		  		{{item.remark}}
 		  	</div>
 		  </div>
 		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
-		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
-		</el-card>
-		<el-card class="box-card" style="margin-bottom:20px">
-		  <div slot="header" class="clearfix">
-		    <span>给的撒娇和高房价是否会是尽快发货时开关机换个方式就</span>
-		    <span class="pull-right hidden-xs-only"><i class="el-icon-time"></i> 2018-10-10</span>
-		  </div>
-		  <div class="bodyBox">
-		  	<div class="tipBox">
-		  		<label>标签：html<span class="pull-right"><i class="el-icon-time"></i> 2018-10-10</span></label>
-		  		<label>关键字：<span>对方是否</span><span>对否</span><span>方是否</span></label>
-		  	</div>
-		  	<div class="bodyContent">
-		  		估计大恒大金服好地方萨克斯的地方脚后跟肯定是多喝水福建省地方很结实的共和党坚实的更快更好更快施工队很关键的复合弓
-		  	</div>
-		  </div>
+		<el-card v-else><p style="text-align:center">暂无文章</p></el-card>
+		
+		<el-card class="box-card" v-if="total>0">
+			<div class="pageBox">
+				  <el-pagination
+				    layout="prev, pager, next"
+				      @size-change="handleSizeChange"
+				      @current-change="handleCurrentChange"
+				      :current-page="currentPage"
+				      :page-size="pageSize"
+				    :total="total">
+				  </el-pagination>
+			</div>
 		</el-card>
 			
 	</div>
@@ -69,13 +45,143 @@
 	export default{
 		data(){
 			return {
+				total:0,
+				label:{_id:0,name:'全部'},
+				data: [],
+		        labels:[],
+		        pageSize:10,
+		        currentPage: 1
 				
 			}
 		},
-		
+		watch:{
+	        '$route.query':function (val) {
+	            let id=val.id;
+	            let name=val.name;
+	            this.label={
+					_id:id,
+					name:name
+				}
+				this.getList();			
+				
+	        }
+    	},
 		created(){
+			this.getLabel();
+			if(this.$route.query.id){
+				this.label={
+					_id:this.$route.query.id,
+					name:this.$route.query.name
+				}
+				
+			}
+			this.getList();
 		},
 		methods:{
+		  handleSizeChange(val) {
+	        this.pageSize=val;
+	        this.getList();
+	      },
+	      handleCurrentChange(val) {
+	        this.currentPage=val;
+	        this.getList();
+
+	      },
+			getLabel(){
+		      	var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        
+		        self.axios({
+		          method: 'get',
+		          url:api.labelList    
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              self.labels=res.data.data;
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+
+		      },
+		      getList(){
+		      	var self=this;
+		      	const loading=self.$loading({
+		          lock: true,
+		          text: '请求中……',
+		          spinner: 'el-icon-loading',
+		          background: 'rgba(0, 0, 0, 0.7)'
+		        });
+		        let submitData={
+		        	currentPage:this.currentPage,
+		        	pageSize:this.pageSize
+
+		        }
+		        if(self.label._id!==0){
+		        	submitData.label=self.label.name;
+		        }
+		        
+		        self.axios({
+		          method: 'get',
+		          url:api.noteList,
+		          params:submitData 
+		        }).then(function (res) {       
+		            if(res.data.code==0){
+		              loading.close();
+		              self.total=res.data.data.count;
+		              self.data=res.data.data.res;
+		            }else{
+		              loading.close();
+		                    
+		              self.$message({
+		                    message:res.data.message,
+		                    type: 'warning'
+		                  });  
+		                 
+		            }
+
+		                   
+		          }).catch(function (error) {
+		            loading.close();
+		            self.$message({
+		                    message:error,
+		                    type: 'warning'
+		                  }); 
+		                       　　
+		          });
+
+		      },
+		      changeLabel(_id,name){
+		      	this.label={_id,name};
+		      	this.currentPage=1;
+		      	this.getList();
+		      },
+		      gotoDetail(id){
+				this.$router.push({
+					name:'diaryDetail',
+					query:{id:id}
+				})
+			}
 
 		}
 	}
@@ -112,6 +218,12 @@
 		}
 	}
 }
+.headBox{
+	cursor:pointer;
+	&:hover{
+		color:#409EFF
+	}
+}
 .bodyBox{
 	.tipBox{
 		font-size:12px;
@@ -130,6 +242,14 @@
 		color:#666;
 	}
 }
+.pageBox{
+	text-align:center;
+}
+.el-tag{
+	margin:0 5px;
+	cursor:pointer;
+}
+
 @media screen and ( max-width: 650px ) {
 	label{
 		display:block;

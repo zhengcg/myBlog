@@ -3,7 +3,7 @@ const mongoose=require('./db.js');
 const moment=require('moment');
 const Schema=new mongoose.Schema({
 	title:String,
-	// cover:String,
+	remark:String,
 	key:Array,
 	label:String,
 	date:{type: String,default: moment().format('YYYY-MM-DD HH:mm:ss')},
@@ -16,11 +16,11 @@ Schema.statics.findPage=function(currentPage,pageSize,info,callback){
 	
 	this.countDocuments(info,(err,count)=>{
 		if(!err){
-			this.find(info,{title:1,label:1,date:1})
+			this.find(info,{title:1,label:1,date:1,key:1,remark:1})
 	        .skip((currentPage-1)*pageSize)
 	        .limit(pageSize)
 	        .exec((error,res)=>{
-	        	if(!err){
+	        	if(!error){
 	        		callback(null,{count,res})
 	        	}else{
 	        		callback(error)
@@ -34,6 +34,20 @@ Schema.statics.findPage=function(currentPage,pageSize,info,callback){
 	});
 
 	
+}
+
+Schema.statics.findTen=function(info,callback){
+	this.find(info,{title:1,label:1,date:1,key:1,remark:1})
+    .limit(10)
+    .sort({'_id':-1})
+    .exec((error,res)=>{
+    	if(!error){
+    		callback(null,res)
+    	}else{
+    		callback(error)
+    	}
+    })
+
 }
 const Model=mongoose.model("note",Schema);
 
@@ -93,6 +107,19 @@ let note={
 
 		})
 		
+	},
+	findTen(info){
+		return new Promise((resolve,reject)=>{			
+			Model.findTen(info,(err,res)=>{
+				if(err){
+					reject(err);
+				}else{
+					resolve(res)
+				}
+			});
+
+		})
+
 	},
 	findById(id){
 		return new Promise((resolve,reject)=>{

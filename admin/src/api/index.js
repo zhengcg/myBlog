@@ -16,6 +16,7 @@ export default {
 	journalDelete:'/api/journal/delete',
 	journalSave:'/api/journal/create',
 	noteList:'/api/note/find',
+	noteTen:'/api/note/findTen',
 	noteFind:'/api/note/findById',
 	noteDelete:'/api/note/delete',
 	noteSave:'/api/note/create',

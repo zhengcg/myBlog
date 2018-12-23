@@ -34,6 +34,9 @@
 		              v-model="title">
 		            </el-input>
 		        </div>
+            <div class="box">
+                <el-input type="textarea" v-model="remark" placeholder="摘要" :rows="5"></el-input>
+            </div>
                 <div class="box">
                     <el-select v-model="label" placeholder="选择标签">
                       <el-option  label="全部" value=""></el-option>
@@ -76,6 +79,7 @@
                         <p class="time"><i class="el-icon-time"></i> {{date}}<span style="margin-left:2em;">标签：{{label}}</span></p>
                         <p ><span>关键字：{{keys.join(" | ")}}</span></p>
                     </div>
+                    <div class="box">摘要：{{remark}}</div>
                     <div class="box" v-html="html"></div>
                     
                 </div>
@@ -103,6 +107,7 @@
                 keys:[],
                 title:'',
                 label:'',
+                remark:'',
                 _id:'',
                 labels:[],
                 date:'',
@@ -119,6 +124,7 @@
                 this.fTitle="发表";
                 this._id="";
                 this.title="";
+                this.remark="";
                 this.keys=[];
                 this.label="";
             }else if(tit==2){
@@ -178,6 +184,7 @@
                       loading.close();
                       self.title=res.data.data.title;
                       self.date=res.data.data.date;
+                      self.remark=res.data.data.remark;
                       self.content=res.data.data.content;
                       self.keys=res.data.data.key;
                       self.label=res.data.data.label;
@@ -268,6 +275,11 @@
                           message:"请填写标题",
                           type: 'warning'
                         });  
+                }else if(self.remark==""){
+                    self.$message({
+                          message:"请填写摘要",
+                          type: 'warning'
+                        }); 
                 }else if(self.label==""){
                     self.$message({
                           message:"请选择标签",
@@ -293,6 +305,7 @@
                     let submitData={
                         _id:self._id,
                         title:self.title,
+                        remark:self.remark,
                         label:self.label,
                         key:self.keys,
                         content:self.content,

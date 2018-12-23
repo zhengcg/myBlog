@@ -3,7 +3,7 @@ const model=require('../models/motto');
 const token=require('./token');
 const moment=require('moment');
 const moto=new Router();
-moto.get('/find',token.checkToken(),async ctx=>{
+moto.get('/find',async ctx=>{
 	let res=await model.find();
 	if(res){
 		ctx.body={

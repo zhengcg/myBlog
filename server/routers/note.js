@@ -3,7 +3,7 @@ const model=require('../models/note');
 const token=require('./token');
 const moment=require('moment');
 const note=new Router();
-note.get('/find',token.checkToken(),async ctx=>{
+note.get('/find',async ctx=>{
 	// console.log(ctx.query.currentPage,ctx.query.pageSize);
 	let currentPage= parseInt(ctx.query.currentPage);
 	let pageSize= parseInt(ctx.query.pageSize);
@@ -29,8 +29,30 @@ note.get('/find',token.checkToken(),async ctx=>{
 
 	}
 });
+note.get('/findTen',async ctx=>{	
+	let info={}
+	if(ctx.query.label){
+		info={label:ctx.query.label};
+	}
+	let res=await model.findTen(info);
+	if(res){
+		ctx.body={
+			code:0,
+			data:res,
+			message:"获取成功"
 
-note.get('/findById',token.checkToken(),async ctx=>{
+		};
+	}else{
+		ctx.body={
+				code:1,
+				data:"",
+				message:"数据库查询错误"
+			}
+
+	}
+});
+
+note.get('/findById',async ctx=>{
 	let res=await model.findById(ctx.query.id);
 	if(res){
 		ctx.body={

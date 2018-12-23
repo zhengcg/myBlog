@@ -2,7 +2,7 @@ const Router=require('koa-router');
 const model=require('../models/album');
 const token=require('./token');
 const album=new Router();
-album.get('/find',token.checkToken(),async ctx=>{
+album.get('/find',async ctx=>{
 	let res=await model.find();
 	if(res){
 		ctx.body={
@@ -20,7 +20,7 @@ album.get('/find',token.checkToken(),async ctx=>{
 
 	}
 })
-album.get('/findById',token.checkToken(),async ctx=>{
+album.get('/findById',async ctx=>{
 	let res=await model.findById(ctx.query.id);
 	if(res){
 		ctx.body={

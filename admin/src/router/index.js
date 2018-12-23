@@ -22,6 +22,10 @@ const AlbumDetail = ()=>import('@/components/album/albumDetail');
 const clientHome = ()=>import('@/pages/Home');
 const Index = ()=>import('@/pages/index');
 const Diary = ()=>import('@/pages/diary');
+const DiaryDetail = ()=>import('@/pages/diaryDetail');
+const Article = ()=>import('@/pages/article');
+const ArticleDetail = ()=>import('@/pages/articleDetail');
+const Resume = ()=>import('@/pages/resume');
 
 const router=new Router({
   routes: [
@@ -113,11 +117,32 @@ const router=new Router({
                 component:Diary
             },
             {
+                path:'/diaryDetail',
+                name:'diaryDetail',
+                component:DiaryDetail
+            },
+            {
+                path:'/article',
+                name:'article',
+                component:Article
+            },
+            {
+                path:'/articleDetail',
+                name:'articleDetail',
+                component:ArticleDetail
+            },
+            {
                 path:'',
                 redirect:'/index'
             }
 
         ]
+    },
+    {
+        path:'/resume',
+        name:'resume',
+        component:Resume
+
     },
     {
         path:'/admin',
